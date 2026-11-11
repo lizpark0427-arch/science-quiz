@@ -8,7 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts: Pretendard alternative (Noto Sans KR & Outfit) -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
@@ -19,27 +19,12 @@
             color: #334155;
             word-break: keep-all;
         }
-        .en-font {
-            font-family: 'Outfit', sans-serif;
-        }
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f1f5f9;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 9999px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
-        /* Smooth Fade Animation */
-        .fade-in {
-            animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+        .en-font { font-family: 'Outfit', sans-serif; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        .fade-in { animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(6px); }
             to { opacity: 1; transform: translateY(0); }
@@ -61,9 +46,7 @@
                 </div>
             </div>
 
-            <!-- Stats Header Mini Badge -->
             <div class="flex items-center space-x-3">
-                <!-- Student Profile / Login Button -->
                 <button id="user-profile-btn" onclick="openLoginModal()" class="flex items-center bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 px-3 py-1 rounded-full text-xs font-semibold transition">
                     <i class="fa-solid fa-user-circle text-indigo-500 mr-1.5"></i>
                     <span id="header-user-name">게스트 학생</span>
@@ -88,7 +71,6 @@
 
         <!-- 1. HOME SCREEN -->
         <section id="screen-home" class="fade-in space-y-6">
-            <!-- Hero Banner -->
             <div class="relative overflow-hidden rounded-3xl bg-slate-800 text-slate-100 p-6 md:p-8 shadow-sm">
                 <div class="relative z-10 max-w-xl">
                     <span class="inline-block px-3 py-1 bg-slate-700 rounded-full text-xs font-medium mb-3 text-slate-300">
@@ -110,7 +92,6 @@
                         </button>
                     </div>
                 </div>
-                <!-- Background Graphic Deco -->
                 <i class="fa-solid fa-flask text-slate-700/50 text-9xl absolute -right-6 -bottom-6 pointer-events-none transform -rotate-12"></i>
             </div>
 
@@ -128,12 +109,48 @@
                         <p class="text-xs text-slate-500 mt-0.5">다음 레벨까지 <span id="xp-needed" class="font-semibold text-slate-700">50 XP</span> 남았습니다.</p>
                     </div>
                 </div>
-                <!-- Progress Bar -->
                 <div class="w-full md:w-64 bg-slate-100 rounded-full h-2.5 overflow-hidden border border-slate-200/60">
                     <div id="level-progress-bar" class="bg-indigo-500 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
                 </div>
             </div>
-<!-- ... existing code -->
+
+            <!-- Subject Grid -->
+            <div>
+                <h3 class="font-bold text-slate-800 text-base mb-3 flex items-center">
+                    <i class="fa-solid fa-layer-group text-slate-400 mr-2 text-sm"></i> 과목별 개념 퀴즈
+                </h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+                    <div onclick="startQuiz('물리학')" class="bg-white border border-slate-200 rounded-2xl p-4 cursor-pointer hover:border-slate-300 hover:shadow-md transition group">
+                        <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center mb-3 group-hover:scale-105 transition">
+                            <i class="fa-solid fa-magnet text-lg"></i>
+                        </div>
+                        <h4 class="font-bold text-slate-800 text-sm">물리학</h4>
+                        <p class="text-xs text-slate-500 mt-0.5">역학, 전기, 파동 등</p>
+                    </div>
+                    <div onclick="startQuiz('화학')" class="bg-white border border-slate-200 rounded-2xl p-4 cursor-pointer hover:border-slate-300 hover:shadow-md transition group">
+                        <div class="w-10 h-10 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center mb-3 group-hover:scale-105 transition">
+                            <i class="fa-solid fa-vial text-lg"></i>
+                        </div>
+                        <h4 class="font-bold text-slate-800 text-sm">화학</h4>
+                        <p class="text-xs text-slate-500 mt-0.5">화학반응, 결합, 산염기</p>
+                    </div>
+                    <div onclick="startQuiz('생명과학')" class="bg-white border border-slate-200 rounded-2xl p-4 cursor-pointer hover:border-slate-300 hover:shadow-md transition group">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-3 group-hover:scale-105 transition">
+                            <i class="fa-solid fa-dna text-lg"></i>
+                        </div>
+                        <h4 class="font-bold text-slate-800 text-sm">생명과학</h4>
+                        <p class="text-xs text-slate-500 mt-0.5">세포, 광합성, 항상성</p>
+                    </div>
+                    <div onclick="startQuiz('지구과학')" class="bg-white border border-slate-200 rounded-2xl p-4 cursor-pointer hover:border-slate-300 hover:shadow-md transition group">
+                        <div class="w-10 h-10 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center mb-3 group-hover:scale-105 transition">
+                            <i class="fa-solid fa-earth-americas text-lg"></i>
+                        </div>
+                        <h4 class="font-bold text-slate-800 text-sm">지구과학</h4>
+                        <p class="text-xs text-slate-500 mt-0.5">판구조론, 대기, 우주</p>
+                    </div>
+                </div>
+            </div>
+
             <!-- Quick Action Cards -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div onclick="openAddQuestionModal()" class="bg-white border border-slate-200 text-slate-800 p-5 rounded-2xl cursor-pointer hover:bg-slate-50 transition shadow-sm flex justify-between items-center">
@@ -170,7 +187,109 @@
                 </div>
             </div>
         </section>
-<!-- ... existing code -->
+
+        <!-- 2. QUIZ SCREEN -->
+        <section id="screen-quiz" class="hidden fade-in max-w-2xl mx-auto space-y-6">
+            <div class="flex items-center justify-between">
+                <button onclick="showScreen('home')" class="text-slate-500 hover:text-slate-800 text-xs font-medium flex items-center">
+                    <i class="fa-solid fa-arrow-left mr-1.5"></i> 메인으로
+                </button>
+                <div class="flex items-center space-x-2">
+                    <span id="quiz-subject-badge" class="px-2.5 py-1 bg-slate-200 text-slate-700 text-xs font-bold rounded-full">과목</span>
+                    <span id="quiz-progress-text" class="text-xs text-slate-500 font-semibold">1 / 5</span>
+                </div>
+            </div>
+
+            <!-- Quiz Card -->
+            <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm space-y-6">
+                <div class="space-y-2">
+                    <div class="flex items-center space-x-2">
+                        <span id="quiz-type-tag" class="text-xs font-semibold px-2 py-0.5 bg-slate-100 text-slate-600 rounded">OX 퀴즈</span>
+                        <span id="quiz-term-tag" class="text-xs font-medium text-slate-500">주제: 관성</span>
+                    </div>
+                    <h3 id="quiz-question-text" class="text-lg md:text-xl font-bold text-slate-800 leading-snug">
+                        질문 지문이 들어가는 곳입니다.
+                    </h3>
+                </div>
+
+                <!-- Answer Options Container -->
+                <div id="quiz-options-container" class="grid grid-cols-1 gap-3"></div>
+
+                <!-- Explanation Box -->
+                <div id="quiz-feedback-box" class="hidden p-4 rounded-2xl border fade-in space-y-3">
+                    <div class="flex items-center space-x-2">
+                        <span id="feedback-icon-badge" class="w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold">✓</span>
+                        <h4 id="feedback-result-title" class="font-bold text-sm">정답입니다!</h4>
+                    </div>
+                    <div id="feedback-explanation-text" class="text-xs text-slate-700 leading-relaxed font-normal"></div>
+                    <button id="next-quiz-btn" onclick="nextQuestion()" class="w-full py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-bold transition shadow-sm">
+                        다음 문제로 <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. RESULT SCREEN -->
+        <section id="screen-result" class="hidden fade-in max-w-md mx-auto text-center space-y-6 py-8">
+            <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm space-y-4">
+                <div class="w-20 h-20 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center text-3xl mx-auto">🎉</div>
+                <h2 class="text-2xl font-bold text-slate-800">퀴즈 완료!</h2>
+                <p class="text-xs text-slate-500">개념을 정복하는 데 한 걸음 더 다가섰습니다.</p>
+                <div class="py-4 border-y border-slate-100 grid grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-xs text-slate-400">맞힌 문제</p>
+                        <p id="result-score-text" class="text-xl font-bold text-slate-800">0 / 0</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-400">획득한 경험치</p>
+                        <p id="result-xp-text" class="text-xl font-bold text-indigo-600">+0 XP</p>
+                    </div>
+                </div>
+                <div class="flex space-x-3 pt-2">
+                    <button onclick="showScreen('home')" class="w-1/2 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl text-xs transition">홈으로</button>
+                    <button onclick="startQuiz('all')" class="w-1/2 py-3 bg-slate-800 hover:bg-slate-700 text-white font-semibold rounded-xl text-xs transition">다시 풀기</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. DICTIONARY SCREEN -->
+        <section id="screen-dictionary" class="hidden fade-in space-y-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-xl font-bold text-slate-800">과학 용어 사전</h2>
+                    <p class="text-xs text-slate-500 mt-0.5">고등학교 핵심 과학 개념과 비유 해설을 한눈에 살펴보세요.</p>
+                </div>
+                <div class="relative w-full md:w-72">
+                    <input type="text" id="dict-search" oninput="renderDictionary()" placeholder="용어 또는 비유 해설 검색..." class="w-full pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-slate-300">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+                </div>
+            </div>
+
+            <!-- Subject Category Filters -->
+            <div class="flex flex-wrap gap-2">
+                <button onclick="filterDictCategory('all')" class="dict-cat-btn px-3 py-1.5 rounded-xl text-xs font-medium bg-slate-800 text-white transition">전체</button>
+                <button onclick="filterDictCategory('물리학')" class="dict-cat-btn px-3 py-1.5 rounded-xl text-xs font-medium bg-white border border-slate-200 text-slate-600 transition">물리학</button>
+                <button onclick="filterDictCategory('화학')" class="dict-cat-btn px-3 py-1.5 rounded-xl text-xs font-medium bg-white border border-slate-200 text-slate-600 transition">화학</button>
+                <button onclick="filterDictCategory('생명과학')" class="dict-cat-btn px-3 py-1.5 rounded-xl text-xs font-medium bg-white border border-slate-200 text-slate-600 transition">생명과학</button>
+                <button onclick="filterDictCategory('지구과학')" class="dict-cat-btn px-3 py-1.5 rounded-xl text-xs font-medium bg-white border border-slate-200 text-slate-600 transition">지구과학</button>
+            </div>
+
+            <!-- Cards Grid -->
+            <div id="dict-cards-container" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+        </section>
+
+        <!-- 5. INCORRECT NOTES SCREEN -->
+        <section id="screen-incorrect-notes" class="hidden fade-in space-y-6">
+            <div>
+                <h2 class="text-xl font-bold text-slate-800">나만의 오답 노트</h2>
+                <p class="text-xs text-slate-500 mt-0.5">틀렸던 문제만 골라 다시 복습하여 내 개념으로 만들어보세요.</p>
+            </div>
+            <div id="wrong-notes-container" class="space-y-4"></div>
+        </section>
+
+    </main>
+
+    <!-- Modals -->
     <!-- Add Question Modal -->
     <div id="add-modal" class="hidden fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-lg fade-in max-h-[90vh] overflow-y-auto">
@@ -217,9 +336,7 @@
                     <textarea id="new-question" rows="2" placeholder="문제 지문을 입력하세요." required class="w-full p-2 border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-emerald-300"></textarea>
                 </div>
 
-                <!-- Dynamic Options Input -->
                 <div id="options-input-group" class="space-y-2">
-                    <!-- OX Mode Default -->
                     <div id="ox-options-field" class="space-y-1">
                         <label class="block text-xs font-medium text-slate-600">정답 선택</label>
                         <select id="new-ox-correct" class="w-full p-2 border border-slate-200 rounded-xl text-xs bg-white">
@@ -267,15 +384,48 @@
         </div>
     </div>
 
-    <!-- Student Name Login / Switch Modal -->
-<!-- ... existing code -->
+    <!-- Student Login Modal -->
+    <div id="login-modal" class="hidden fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 space-y-4 shadow-lg fade-in">
+            <div class="flex justify-between items-center pb-2 border-b border-slate-100">
+                <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center text-sm font-bold">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-800 text-base">학생 이름 등록 / 연결</h3>
+                </div>
+                <button onclick="closeLoginModal()" class="text-slate-400 hover:text-slate-600">
+                    <i class="fa-solid fa-xmark text-base"></i>
+                </button>
+            </div>
+            <p class="text-xs text-slate-500 leading-relaxed">
+                이름이나 닉네임을 입력해 두면 예전에 모아둔 포인트(XP)와 오답 노트를 그대로 불러올 수 있습니다.
+            </p>
+            <div>
+                <label class="block text-xs font-medium text-slate-600 mb-1">학생 이름 (닉네임)</label>
+                <input type="text" id="student-name-input" placeholder="예: 김과학, 아인슈타인" class="w-full p-2.5 border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-indigo-300">
+            </div>
+            <div class="flex space-x-2 pt-2">
+                <button onclick="closeLoginModal()" class="w-1/2 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-600 font-medium rounded-xl text-xs transition">취소</button>
+                <button onclick="handleStudentLogin()" class="w-1/2 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-xl text-xs transition shadow-sm">확인 / 불러오기</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Simple Notification Modal -->
+    <div id="modal-alert" class="hidden fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 space-y-4 shadow-lg fade-in text-center">
+            <h3 id="modal-alert-title" class="font-bold text-slate-800 text-base">알림</h3>
+            <p id="modal-alert-desc" class="text-xs text-slate-600 leading-relaxed"></p>
+            <div id="modal-alert-buttons" class="flex justify-center space-x-2 pt-2">
+                <button onclick="closeModal()" class="px-5 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-medium transition">확인</button>
+            </div>
+        </div>
+    </div>
+
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        /* ==========================================================================
-           1. DATA DATABASE (High School Science Concepts & Quizzes)
-           ========================================================================== */
         const DEFAULT_SCIENCE_DATABASE = [
-            // 물리학
             {
                 id: "phy_01",
                 subject: "물리학",
@@ -304,12 +454,11 @@
                 term: "파동의 중첩",
                 category: "파동",
                 quizType: "chosung",
-                question: "두 개 이상의 파동이 서로 만나 겹쳐지면서 합성 파동의 높이가 변하는 현상은?",
+                question: "두 개 이상의 파동이 서로 만나 겹쳐지면서 합성 파동의 높이가 변하는 현상은? (힌트: ㅂㅅ)",
                 options: ["간섭", "보강", "복사", "변위"],
                 correctIndex: 0,
                 explanation: "💡 **쉬운 비유:** 두 물결이 만나면 더 큰 물결이 되거나 서로를 상쇄시켜 평평해지는 것처럼, 파동들이 만나 영향을 주는 현상입니다."
             },
-            // 화학
             {
                 id: "chem_01",
                 subject: "화학",
@@ -318,7 +467,7 @@
                 quizType: "ox",
                 question: "화학 반응에서 어떤 물질이 산소를 얻거나 전자를 잃는 반응을 '환원'이라고 한다.",
                 options: ["O (맞음)", "X (틀림)"],
-                correctIndex: 1, // X: 산소를 얻는 것은 산화
+                correctIndex: 1,
                 explanation: "💡 **쉬운 비유:** 산소를 얻거나 전자를 잃으면 **'산화'**, 반대로 산소를 잃거나 전자를 얻으면 **'환원'**입니다. 쇠가 녹슬 때 산소를 얻으므로 산화되는 것입니다."
             },
             {
@@ -338,12 +487,11 @@
                 term: "중화 반응",
                 category: "산과 염기",
                 quizType: "chosung",
-                question: "산과 염기가 반응하여 물과 앙금(염)을 생성하고 열이 발생하는 반응은?",
+                question: "산과 염기가 반응하여 물과 앙금(염)을 생성하고 열이 발생하는 반응은? (힌트: ㅈㅎㅂㄴ)",
                 options: ["중화반응", "산화반응", "치환반응", "연소반응"],
                 correctIndex: 0,
                 explanation: "💡 **쉬운 비유:** 신 김치(산성)에 계란 껍데기나 제산제(염기성)를 넣으면 신맛이 사라지고 중성이 되는 것과 같은 화학 반응입니다."
             },
-            // 생명과학
             {
                 id: "bio_01",
                 subject: "생명과학",
@@ -372,12 +520,11 @@
                 term: "항상성",
                 category: "인체 생리",
                 quizType: "chosung",
-                question: "체온, 혈당량 등 체내 환경을 일정하게 유지하려는 생명체의 성질은?",
+                question: "체온, 혈당량 등 체내 환경을 일정하게 유지하려는 생명체의 성질은? (힌트: ㅎㅅㅅ)",
                 options: ["항상성", "적응성", "유전성", "동화성"],
                 correctIndex: 0,
                 explanation: "💡 **쉬운 비유:** 덥면 땀을 흘려 몸을 식히고, 추우면 몸을 떨어 열을 내는 '체내 자동 에어컨/히터 System'입니다."
             },
-            // 지구과학
             {
                 id: "earth_01",
                 subject: "지구과학",
@@ -406,7 +553,7 @@
                 term: "연주시차",
                 category: "우주",
                 quizType: "chosung",
-                question: "지구가 공전함에 따라 가까운 별의 위치가 배경 별에 대해 1년 주기로 달라져 보이는 각도는?",
+                question: "지구가 공전함에 따라 가까운 별의 위치가 배경 별에 대해 1년 주기로 달라져 보이는 각도는? (힌트: ㅇㅅㅅㅊ)",
                 options: ["연주시차", "시선속도", "적위각도", "남중고도"],
                 correctIndex: 0,
                 explanation: "💡 **쉬운 비유:** 손가락을 들고 한쪽 눈씩 번갈아 감으면 손가락 위치가 왔다 갔다 해 보이는 것처럼, 지구 공전 때문에 일어나는 착시 각도입니다."
@@ -416,14 +563,11 @@
         let customQuestions = [];
         let SCIENCE_DATABASE = [...DEFAULT_SCIENCE_DATABASE];
 
-        /* ==========================================================================
-           2. STATE MANAGEMENT & NAME-BASED STORAGE
-           ========================================================================== */
         let state = {
             username: "게스트 학생",
             xp: 0,
             level: 1,
-            wrongNotes: [], // Array of concept IDs
+            wrongNotes: [],
             currentQuizSet: [],
             currentQuizIdx: 0,
             score: 0,
@@ -434,52 +578,50 @@
             return `science_user_${name.trim().toLowerCase()}`;
         }
 
-        // Load state from localStorage by student name
         function loadStudentData(name) {
             state.username = name || "게스트 학생";
             const key = getStorageKey(state.username);
-            const saved = localStorage.getItem(key);
-
-            // Load custom questions saved globally
-            const savedCustom = localStorage.getItem('science_custom_questions');
-            if (savedCustom) {
-                try {
-                    customQuestions = JSON.parse(savedCustom);
-                } catch(e) {
+            
+            try {
+                const saved = localStorage.getItem(key);
+                const savedCustom = localStorage.getItem('science_custom_questions');
+                if (savedCustom) {
+                    customQuestions = JSON.parse(savedCustom) || [];
+                } else {
                     customQuestions = [];
                 }
-            } else {
-                customQuestions = [];
-            }
-            SCIENCE_DATABASE = [...DEFAULT_SCIENCE_DATABASE, ...customQuestions];
+                SCIENCE_DATABASE = [...DEFAULT_SCIENCE_DATABASE, ...customQuestions];
 
-            if (saved) {
-                try {
+                if (saved) {
                     const parsed = JSON.parse(saved);
                     state.xp = parsed.xp || 0;
                     state.level = Math.floor(state.xp / 50) + 1;
                     state.wrongNotes = parsed.wrongNotes || [];
-                } catch (e) {
-                    console.error('Storage parse error', e);
+                } else {
+                    state.xp = 0;
+                    state.level = 1;
+                    state.wrongNotes = [];
                 }
-            } else {
-                state.xp = 0;
-                state.level = 1;
-                state.wrongNotes = [];
+            } catch (e) {
+                console.error('Storage access or parse error:', e);
+                SCIENCE_DATABASE = [...DEFAULT_SCIENCE_DATABASE];
             }
             updateUIHeader();
         }
 
         function saveLocalStorage() {
-            const key = getStorageKey(state.username);
-            localStorage.setItem(key, JSON.stringify({
-                xp: state.xp,
-                wrongNotes: state.wrongNotes
-            }));
-            localStorage.setItem('science_custom_questions', JSON.stringify(customQuestions));
+            try {
+                const key = getStorageKey(state.username);
+                localStorage.setItem(key, JSON.stringify({
+                    xp: state.xp,
+                    wrongNotes: state.wrongNotes
+                }));
+                localStorage.setItem('science_custom_questions', JSON.stringify(customQuestions));
+            } catch(e) {
+                console.error('Save storage error:', e);
+            }
         }
 
-        /* Student Name Login Modal Functions */
         function openLoginModal() {
             document.getElementById('student-name-input').value = state.username === '게스트 학생' ? '' : state.username;
             document.getElementById('login-modal').classList.remove('hidden');
@@ -500,7 +642,6 @@
             showModal("프로필 연결 성공", `'${state.username}' 학생의 포인트(${state.xp} XP)와 오답 노트를 불러왔습니다.`);
         }
 
-        /* Add Custom Question Modal Functions */
         function openAddQuestionModal() {
             document.getElementById('add-modal').classList.remove('hidden');
             toggleOptionFields();
@@ -589,10 +730,197 @@
             });
         }
 
-        /* ==========================================================================
-           3. UI UPDATES & NAVIGATION
-           ========================================================================== */
-<!-- ... existing code -->
+        function showScreen(screenId) {
+            const screens = ['home', 'quiz', 'result', 'dictionary', 'incorrect-notes'];
+            screens.forEach(id => {
+                const el = document.getElementById(`screen-${id}`);
+                if (el) {
+                    if (id === screenId) {
+                        el.classList.remove('hidden');
+                    } else {
+                        el.classList.add('hidden');
+                    }
+                }
+            });
+
+            if (screenId === 'dictionary') renderDictionary();
+            if (screenId === 'incorrect-notes') renderIncorrectNotes();
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function updateUIHeader() {
+            document.getElementById('header-user-name').innerText = state.username;
+            document.getElementById('user-title').innerText = state.username;
+            document.getElementById('header-level').innerText = `Lv.${state.level}`;
+            document.getElementById('user-level-tag').innerText = `Lv.${state.level}`;
+            document.getElementById('header-xp').innerText = `${state.xp} XP`;
+
+            const xpNeeded = 50 - (state.xp % 50);
+            document.getElementById('xp-needed').innerText = `${xpNeeded} XP`;
+
+            const progressPct = ((state.xp % 50) / 50) * 100;
+            document.getElementById('level-progress-bar').style.width = `${progressPct}%`;
+
+            const badge = document.getElementById('wrong-count-badge');
+            if (state.wrongNotes.length > 0) {
+                badge.innerText = state.wrongNotes.length;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+        }
+
+        function addXP(amount) {
+            state.xp += amount;
+            state.level = Math.floor(state.xp / 50) + 1;
+            saveLocalStorage();
+            updateUIHeader();
+        }
+
+        function startQuiz(subjectFilter = 'all') {
+            let pool = SCIENCE_DATABASE;
+            if (subjectFilter !== 'all') {
+                pool = SCIENCE_DATABASE.filter(item => item.subject === subjectFilter);
+            }
+
+            if (pool.length === 0) {
+                showModal("퀴즈 알림", "해당 과목의 문제가 아직 준비되지 않았습니다.");
+                return;
+            }
+
+            const shuffled = [...pool].sort(() => 0.5 - Math.random());
+            state.currentQuizSet = shuffled.slice(0, 5);
+            state.currentQuizIdx = 0;
+            state.score = 0;
+
+            showScreen('quiz');
+            renderCurrentQuestion();
+        }
+
+        function renderCurrentQuestion() {
+            const quiz = state.currentQuizSet[state.currentQuizIdx];
+            const total = state.currentQuizSet.length;
+
+            document.getElementById('quiz-subject-badge').innerText = quiz.subject;
+            document.getElementById('quiz-progress-text').innerText = `${state.currentQuizIdx + 1} / ${total}`;
+
+            let typeLabel = "O/X 퀴즈";
+            if (quiz.quizType === 'multiple') typeLabel = "4지 선다형";
+            if (quiz.quizType === 'chosung') typeLabel = "초성 퀴즈";
+
+            document.getElementById('quiz-type-tag').innerText = typeLabel;
+            document.getElementById('quiz-term-tag').innerText = `개념: ${quiz.term}`;
+            document.getElementById('quiz-question-text').innerText = quiz.question;
+
+            document.getElementById('quiz-feedback-box').classList.add('hidden');
+
+            const container = document.getElementById('quiz-options-container');
+            container.innerHTML = '';
+
+            if (quiz.quizType === 'ox') {
+                const grid = document.createElement('div');
+                grid.className = "grid grid-cols-2 gap-3";
+                quiz.options.forEach((optText, idx) => {
+                    const btn = document.createElement('button');
+                    btn.onclick = () => selectAnswer(idx);
+                    btn.className = "option-btn p-4 rounded-2xl border-2 border-slate-200 hover:border-indigo-400 bg-white font-bold text-slate-700 text-sm md:text-base transition text-center shadow-sm hover:shadow";
+                    btn.innerText = optText;
+                    grid.appendChild(btn);
+                });
+                container.appendChild(grid);
+            } else {
+                quiz.options.forEach((optText, idx) => {
+                    const btn = document.createElement('button');
+                    btn.onclick = () => selectAnswer(idx);
+                    btn.className = "option-btn w-full p-3.5 rounded-xl border border-slate-200 hover:border-indigo-400 bg-white font-medium text-slate-700 text-xs md:text-sm text-left transition shadow-sm hover:shadow flex items-center";
+                    btn.innerHTML = `<span class="w-6 h-6 rounded-lg bg-slate-100 text-slate-500 font-bold text-xs flex items-center justify-center mr-3 shrink-0">${idx + 1}</span> <span>${optText}</span>`;
+                    container.appendChild(btn);
+                });
+            }
+        }
+
+        function selectAnswer(selectedIdx) {
+            const quiz = state.currentQuizSet[state.currentQuizIdx];
+            const isCorrect = selectedIdx === quiz.correctIndex;
+
+            const optionBtns = document.querySelectorAll('.option-btn');
+            optionBtns.forEach((btn, idx) => {
+                btn.disabled = true;
+                btn.classList.remove('hover:border-indigo-400', 'hover:shadow');
+
+                if (idx === quiz.correctIndex) {
+                    btn.classList.add('bg-emerald-50', 'border-emerald-400', 'text-emerald-700');
+                } else if (idx === selectedIdx && !isCorrect) {
+                    btn.classList.add('bg-rose-50', 'border-rose-400', 'text-rose-700');
+                } else {
+                    btn.classList.add('opacity-50');
+                }
+            });
+
+            const feedbackBox = document.getElementById('quiz-feedback-box');
+            const iconBadge = document.getElementById('feedback-icon-badge');
+            const titleEl = document.getElementById('feedback-result-title');
+            const expText = document.getElementById('feedback-explanation-text');
+
+            if (isCorrect) {
+                state.score++;
+                addXP(10);
+                feedbackBox.className = "p-4 rounded-2xl border border-emerald-200 bg-emerald-50/70 fade-in space-y-3";
+                iconBadge.className = "w-6 h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center text-xs font-bold";
+                iconBadge.innerHTML = "✓";
+                titleEl.innerText = "정답입니다! (+10 XP)";
+                titleEl.className = "font-bold text-sm text-emerald-800";
+
+                state.wrongNotes = state.wrongNotes.filter(id => id !== quiz.id);
+            } else {
+                feedbackBox.className = "p-4 rounded-2xl border border-rose-200 bg-rose-50/70 fade-in space-y-3";
+                iconBadge.className = "w-6 h-6 rounded-full bg-rose-400 text-white flex items-center justify-center text-xs font-bold";
+                iconBadge.innerHTML = "✕";
+                titleEl.innerText = "아쉽네요, 오답입니다.";
+                titleEl.className = "font-bold text-sm text-rose-800";
+
+                if (!state.wrongNotes.includes(quiz.id)) {
+                    state.wrongNotes.push(quiz.id);
+                }
+            }
+
+            saveLocalStorage();
+            updateUIHeader();
+
+            let formattedExp = quiz.explanation.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold">$1</strong>');
+            expText.innerHTML = formattedExp;
+            feedbackBox.classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            state.currentQuizIdx++;
+            if (state.currentQuizIdx < state.currentQuizSet.length) {
+                renderCurrentQuestion();
+            } else {
+                showResultScreen();
+            }
+        }
+
+        function showResultScreen() {
+            const total = state.currentQuizSet.length;
+            document.getElementById('result-score-text').innerText = `${state.score} / ${total}`;
+            document.getElementById('result-xp-text').innerText = `+${state.score * 10} XP`;
+            showScreen('result');
+        }
+
+        function filterDictCategory(cat) {
+            state.dictCategory = cat;
+            document.querySelectorAll('.dict-cat-btn').forEach(btn => {
+                if (btn.innerText === cat || (cat === 'all' && btn.innerText === '전체')) {
+                    btn.className = "dict-cat-btn px-3 py-1.5 rounded-xl text-xs font-medium bg-slate-800 text-white transition";
+                } else {
+                    btn.className = "dict-cat-btn px-3 py-1.5 rounded-xl text-xs font-medium bg-white border border-slate-200 text-slate-600 transition";
+                }
+            });
+            renderDictionary();
+        }
+
         function renderDictionary() {
             const query = document.getElementById('dict-search').value.toLowerCase().trim();
             const container = document.getElementById('dict-cards-container');
@@ -638,4 +966,99 @@
                 container.appendChild(card);
             });
         }
-<!-- ... existing code -->
+
+        function renderIncorrectNotes() {
+            const container = document.getElementById('wrong-notes-container');
+            container.innerHTML = '';
+
+            if (state.wrongNotes.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 bg-white rounded-2xl border border-slate-200 space-y-3">
+                        <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-xl">
+                            <i class="fa-solid fa-check"></i>
+                        </div>
+                        <h4 class="font-bold text-slate-800 text-base">저장된 오답이 없습니다!</h4>
+                        <p class="text-xs text-slate-500">퀴즈를 풀며 헷갈린 개념이 등록되면 여기서 복습할 수 있습니다.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const wrongItems = SCIENCE_DATABASE.filter(item => state.wrongNotes.includes(item.id));
+            wrongItems.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3";
+                
+                let formattedExp = item.explanation.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-slate-800">$1</strong>');
+
+                card.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <span class="px-2.5 py-0.5 bg-rose-50 text-rose-600 font-semibold text-xs rounded-full">${item.subject} · 오답</span>
+                        <button onclick="removeWrongNote('${item.id}')" class="text-xs text-slate-400 hover:text-rose-500 font-medium transition">
+                            <i class="fa-solid fa-xmark mr-1"></i> 삭제
+                        </button>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-slate-800 text-base">${item.term}</h3>
+                        <p class="text-xs text-slate-600 mt-1 font-medium">Q. ${item.question}</p>
+                    </div>
+                    <div class="text-xs text-slate-600 leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                        ${formattedExp}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function removeWrongNote(id) {
+            state.wrongNotes = state.wrongNotes.filter(item => item !== id);
+            saveLocalStorage();
+            updateUIHeader();
+            renderIncorrectNotes();
+        }
+
+        function showModal(title, desc, confirmMode = false, onConfirm = null) {
+            document.getElementById('modal-alert-title').innerText = title;
+            document.getElementById('modal-alert-desc').innerText = desc;
+            
+            const btnContainer = document.getElementById('modal-alert-buttons');
+            btnContainer.innerHTML = '';
+
+            if (confirmMode) {
+                const cancelBtn = document.createElement('button');
+                cancelBtn.className = "px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl text-xs font-medium transition";
+                cancelBtn.innerText = "취소";
+                cancelBtn.onclick = closeModal;
+
+                const confirmBtn = document.createElement('button');
+                confirmBtn.className = "px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-medium transition";
+                confirmBtn.innerText = "확인";
+                confirmBtn.onclick = () => {
+                    closeModal();
+                    if (onConfirm) onConfirm();
+                };
+
+                btnContainer.appendChild(cancelBtn);
+                btnContainer.appendChild(confirmBtn);
+            } else {
+                const okBtn = document.createElement('button');
+                okBtn.className = "px-5 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-medium transition";
+                okBtn.innerText = "확인";
+                okBtn.onclick = closeModal;
+                btnContainer.appendChild(okBtn);
+            }
+
+            document.getElementById('modal-alert').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('modal-alert').classList.add('hidden');
+        }
+
+        window.onload = function() {
+            loadStudentData('게스트 학생');
+            showScreen('home');
+        };
+    </script>
+</body>
+</html>
