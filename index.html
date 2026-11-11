@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>과학 용어 학습 - 재미있게 익히는 고교 과학 개념</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Pretendard alternative (Noto Sans KR & Outfit) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f8fafc;
+            color: #334155;
+            word-break: keep-all;
+        }
+        .en-font {
+            font-family: 'Outfit', sans-serif;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        /* Smooth Fade Animation */
+        .fade-in {
+            animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col bg-slate-50">
+
+    <!-- Header Navigation -->
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200/80 shadow-sm">
+        <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="showScreen('home')">
+                <div class="w-10 h-10 rounded-xl bg-slate-700 flex items-center justify-center text-slate-100 shadow-sm">
+                    <i class="fa-solid fa-atom text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-base text-slate-800 leading-tight">과학 용어 학습</h1>
+                    <p class="text-xs text-slate-500 font-medium">고등 과학 개념 마스터</p>
+                </div>
+            </div>
+
+            <!-- Stats Header Mini Badge -->
+            <div class="flex items-center space-x-3">
+                <!-- Student Profile / Login Button -->
+                <button id="user-profile-btn" onclick="openLoginModal()" class="flex items-center bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 px-3 py-1 rounded-full text-xs font-semibold transition">
+                    <i class="fa-solid fa-user-circle text-indigo-500 mr-1.5"></i>
+                    <span id="header-user-name">게스트 학생</span>
+                </button>
+
+                <div class="flex items-center bg-slate-100 border border-slate-200 text-slate-700 px-3 py-1 rounded-full text-xs font-semibold">
+                    <i class="fa-solid fa-star text-amber-400 mr-1.5"></i>
+                    <span id="header-level">Lv.1</span>
+                    <span class="mx-1.5 text-slate-300">|</span>
+                    <span id="header-xp">0 XP</span>
+                </div>
+                <button onclick="showScreen('incorrect-notes')" class="relative p-2 text-slate-500 hover:text-slate-800 transition" title="오답 노트">
+                    <i class="fa-solid fa-book-bookmark text-lg"></i>
+                    <span id="wrong-count-badge" class="hidden absolute top-1 right-1 w-4 h-4 bg-rose-400 text-white text-[10px] font-bold rounded-full flex items-center justify-center">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-1 max-w-4xl w-full mx-auto p-4 md:p-6">
+
+        <!-- 1. HOME SCREEN -->
+        <section id="screen-home" class="fade-in space-y-6">
+            <!-- Hero Banner -->
+            <div class="relative overflow-hidden rounded-3xl bg-slate-800 text-slate-100 p-6 md:p-8 shadow-sm">
+                <div class="relative z-10 max-w-xl">
+                    <span class="inline-block px-3 py-1 bg-slate-700 rounded-full text-xs font-medium mb-3 text-slate-300">
+                        ✨ 쉽고 가벼운 개념 학습
+                    </span>
+                    <h2 class="text-2xl md:text-3xl font-bold mb-2 leading-snug">복잡한 과학 용어,<br>차근차근 풀어보세요</h2>
+                    <p class="text-slate-300 text-sm md:text-base mb-6 font-light">
+                        물리, 화학, 생명과학, 지구과학 핵심 개념부터 알기 쉬운 비유 해설까지 편안하게 학습해보세요.
+                    </p>
+                    <div class="flex flex-wrap gap-3">
+                        <button onclick="startQuiz('all')" class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-xl font-medium text-sm shadow-sm transition flex items-center">
+                            <i class="fa-solid fa-play mr-2 text-xs"></i> 전체 무작위 퀴즈
+                        </button>
+                        <button onclick="openAddQuestionModal()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-xl font-medium text-sm transition flex items-center shadow-sm">
+                            <i class="fa-solid fa-plus mr-2 text-xs"></i> 나만의 문제 추가
+                        </button>
+                        <button onclick="showScreen('dictionary')" class="bg-slate-700 hover:bg-slate-600 border border-slate-600 text-slate-200 px-4 py-2.5 rounded-xl font-medium text-sm transition flex items-center">
+                            <i class="fa-solid fa-book mr-2 text-xs"></i> 용어 사전 보기
+                        </button>
+                    </div>
+                </div>
+                <!-- Background Graphic Deco -->
+                <i class="fa-solid fa-flask text-slate-700/50 text-9xl absolute -right-6 -bottom-6 pointer-events-none transform -rotate-12"></i>
+            </div>
+
+            <!-- Learning Progress Card -->
+            <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="flex items-center space-x-4 w-full md:w-auto">
+                    <div class="w-12 h-12 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center text-xl font-bold shrink-0">
+                        🏆
+                    </div>
+                    <div>
+                        <div class="flex items-center space-x-2">
+                            <h3 id="user-title" class="font-bold text-slate-800 text-base">게스트 학생</h3>
+                            <span id="user-level-tag" class="px-2 py-0.5 bg-slate-100 text-slate-600 text-xs font-bold rounded">Lv.1</span>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-0.5">다음 레벨까지 <span id="xp-needed" class="font-semibold text-slate-700">50 XP</span> 남았습니다.</p>
+                    </div>
+                </div>
+                <!-- Progress Bar -->
+                <div class="w-full md:w-64 bg-slate-100 rounded-full h-2.5 overflow-hidden border border-slate-200/60">
+                    <div id="level-progress-bar" class="bg-indigo-500 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+            </div>
+<!-- ... existing code -->
+            <!-- Quick Action Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div onclick="openAddQuestionModal()" class="bg-white border border-slate-200 text-slate-800 p-5 rounded-2xl cursor-pointer hover:bg-slate-50 transition shadow-sm flex justify-between items-center">
+                    <div>
+                        <div class="text-xs font-medium text-emerald-600 mb-0.5">문제 제작</div>
+                        <h4 class="text-base font-bold text-slate-800">나만의 문제 출제하기</h4>
+                        <p class="text-xs text-slate-500 mt-0.5">원하는 과학 개념 문제와 해설을 등록해보세요</p>
+                    </div>
+                    <div class="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600 text-base">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </div>
+                </div>
+
+                <div onclick="showScreen('incorrect-notes')" class="bg-white border border-slate-200 text-slate-800 p-5 rounded-2xl cursor-pointer hover:bg-slate-50 transition shadow-sm flex justify-between items-center">
+                    <div>
+                        <div class="text-xs font-medium text-slate-400 mb-0.5">복습 모드</div>
+                        <h4 class="text-base font-bold text-slate-800">오답 노트 모아보기</h4>
+                        <p class="text-xs text-slate-500 mt-0.5">틀렸던 용어를 복습하고 확실히 정리해보세요</p>
+                    </div>
+                    <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-600 text-base">
+                        <i class="fa-solid fa-book-bookmark"></i>
+                    </div>
+                </div>
+
+                <div onclick="showScreen('dictionary')" class="bg-white border border-slate-200 text-slate-800 p-5 rounded-2xl cursor-pointer hover:bg-slate-50 transition shadow-sm flex justify-between items-center">
+                    <div>
+                        <div class="text-xs font-medium text-slate-400 mb-0.5">개념 탐색</div>
+                        <h4 class="text-base font-bold text-slate-800">용어 사전 검색</h4>
+                        <p class="text-xs text-slate-500 mt-0.5">고교 핵심 용어 해설을 언제든 찾아보세요</p>
+                    </div>
+                    <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-600 text-base">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+<!-- ... existing code -->
+    <!-- Add Question Modal -->
+    <div id="add-modal" class="hidden fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-lg fade-in max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center pb-2 border-b border-slate-100">
+                <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center text-sm font-bold">
+                        <i class="fa-solid fa-plus"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-800 text-base">나만의 문제 추가</h3>
+                </div>
+                <button onclick="closeAddQuestionModal()" class="text-slate-400 hover:text-slate-600">
+                    <i class="fa-solid fa-xmark text-base"></i>
+                </button>
+            </div>
+
+            <form id="add-question-form" onsubmit="handleAddQuestionSubmit(event)" class="space-y-3">
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="block text-xs font-medium text-slate-600 mb-1">과목</label>
+                        <select id="new-subject" class="w-full p-2 border border-slate-200 rounded-xl text-xs bg-white focus:outline-none focus:ring-2 focus:ring-emerald-300">
+                            <option value="물리학">물리학</option>
+                            <option value="화학">화학</option>
+                            <option value="생명과학">생명과학</option>
+                            <option value="지구과학">지구과학</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-600 mb-1">퀴즈 유형</label>
+                        <select id="new-quiz-type" onchange="toggleOptionFields()" class="w-full p-2 border border-slate-200 rounded-xl text-xs bg-white focus:outline-none focus:ring-2 focus:ring-emerald-300">
+                            <option value="ox">O / X 퀴즈</option>
+                            <option value="multiple">4지 선다형</option>
+                            <option value="chosung">초성 퀴즈</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-medium text-slate-600 mb-1">용어명 / 개념 주제</label>
+                    <input type="text" id="new-term" placeholder="예: 옴의 법칙, 소화 효소" required class="w-full p-2 border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-emerald-300">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-medium text-slate-600 mb-1">질문 내용</label>
+                    <textarea id="new-question" rows="2" placeholder="문제 지문을 입력하세요." required class="w-full p-2 border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-emerald-300"></textarea>
+                </div>
+
+                <!-- Dynamic Options Input -->
+                <div id="options-input-group" class="space-y-2">
+                    <!-- OX Mode Default -->
+                    <div id="ox-options-field" class="space-y-1">
+                        <label class="block text-xs font-medium text-slate-600">정답 선택</label>
+                        <select id="new-ox-correct" class="w-full p-2 border border-slate-200 rounded-xl text-xs bg-white">
+                            <option value="0">O (맞음)</option>
+                            <option value="1">X (틀림)</option>
+                        </select>
+                    </div>
+
+                    <div id="multiple-options-field" class="hidden space-y-1.5">
+                        <label class="block text-xs font-medium text-slate-600">보기 및 정답 설정 (라디오버튼으로 정답선택)</label>
+                        <div class="flex items-center space-x-2">
+                            <input type="radio" name="correct_opt" value="0" checked>
+                            <input type="text" id="opt-0" placeholder="보기 1" class="flex-1 p-1.5 border border-slate-200 rounded-lg text-xs">
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <input type="radio" name="correct_opt" value="1">
+                            <input type="text" id="opt-1" placeholder="보기 2" class="flex-1 p-1.5 border border-slate-200 rounded-lg text-xs">
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <input type="radio" name="correct_opt" value="2">
+                            <input type="text" id="opt-2" placeholder="보기 3" class="flex-1 p-1.5 border border-slate-200 rounded-lg text-xs">
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <input type="radio" name="correct_opt" value="3">
+                            <input type="text" id="opt-3" placeholder="보기 4" class="flex-1 p-1.5 border border-slate-200 rounded-lg text-xs">
+                        </div>
+                    </div>
+
+                    <div id="chosung-options-field" class="hidden space-y-1">
+                        <label class="block text-xs font-medium text-slate-600">정답 단어 (초성 퀴즈 정답)</label>
+                        <input type="text" id="chosung-answer" placeholder="예: 전류" class="w-full p-2 border border-slate-200 rounded-xl text-xs">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-medium text-slate-600 mb-1">실생활 비유 해설</label>
+                    <textarea id="new-explanation" rows="2" placeholder="💡 학생들의 이해를 돕는 쉬운 비유나 예시를 적어주세요." required class="w-full p-2 border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-emerald-300"></textarea>
+                </div>
+
+                <div class="flex space-x-2 pt-2">
+                    <button type="button" onclick="closeAddQuestionModal()" class="w-1/2 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-600 font-medium rounded-xl text-xs transition">취소</button>
+                    <button type="submit" class="w-1/2 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-xl text-xs transition shadow-sm">문제 등록하기</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Student Name Login / Switch Modal -->
+<!-- ... existing code -->
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        /* ==========================================================================
+           1. DATA DATABASE (High School Science Concepts & Quizzes)
+           ========================================================================== */
+        const DEFAULT_SCIENCE_DATABASE = [
+            // 물리학
+            {
+                id: "phy_01",
+                subject: "물리학",
+                term: "관성 (Inertia)",
+                category: "역학",
+                quizType: "ox",
+                question: "관성은 물체가 외부에서 힘을 받지 않을 때 현재의 운동 상태를 그대로 유지하려는 성질을 말한다.",
+                options: ["O (맞음)", "X (틀림)"],
+                correctIndex: 0,
+                explanation: "💡 **쉬운 비유:** 달리는 버스가 갑자기 멈출 때 승객들의 몸이 앞으로 쏠리는 것과 같아요! 물체는 기존의 움직임을 계속 유지하고 싶어 합니다."
+            },
+            {
+                id: "phy_02",
+                subject: "물리학",
+                term: "전자기 유도",
+                category: "전기",
+                quizType: "multiple",
+                question: "자석을 코일에 넣었다 뺐다 할 때, 코일에 전류가 흐르게 되는 현상을 무엇이라 할까요?",
+                options: ["전자기 유도", "정전기 인력", "열전 효과", "광전 효과"],
+                correctIndex: 0,
+                explanation: "💡 **쉬운 비유:** 자석의 움직임(자기장의 변화)이 코일 속 전자들을 자극하여 전기를 만들어 내는 현상입니다. 발전기의 핵심 원리랍니다!"
+            },
+            {
+                id: "phy_03",
+                subject: "물리학",
+                term: "파동의 중첩",
+                category: "파동",
+                quizType: "chosung",
+                question: "두 개 이상의 파동이 서로 만나 겹쳐지면서 합성 파동의 높이가 변하는 현상은? (힌트: ㅂㅅ)",
+                options: ["간섭", "보강", "복사", "변위"],
+                correctIndex: 0,
+                explanation: "💡 **쉬운 비유:** 두 물결이 만나면 더 큰 물결이 되거나 서로를 상쇄시켜 평평해지는 것처럼, 파동들이 만나 영향을 주는 현상입니다."
+            },
+            // 화학
+            {
+                id: "chem_01",
+                subject: "화학",
+                term: "산화와 환원",
+                category: "화학 반응",
+                quizType: "ox",
+                question: "화학 반응에서 어떤 물질이 산소를 얻거나 전자를 잃는 반응을 '환원'이라고 한다.",
+                options: ["O (맞음)", "X (틀림)"],
+                correctIndex: 1, // X: 산소를 얻는 것은 산화
+                explanation: "💡 **쉬운 비유:** 산소를 얻거나 전자를 잃으면 **'산화'**, 반대로 산소를 잃거나 전자를 얻으면 **'환원'**입니다. 쇠가 녹슬 때 산소를 얻으므로 산화되는 것입니다."
+            },
+            {
+                id: "chem_02",
+                subject: "화학",
+                term: "공유 결합",
+                category: "원자 및 결합",
+                quizType: "multiple",
+                question: "비금속 원자들이 서로 전자를 공유하면서 형성하는 화학 결합은 무엇일까요?",
+                options: ["이온 결합", "공유 결합", "금속 결합", "수소 결합"],
+                correctIndex: 1,
+                explanation: "💡 **쉬운 비유:** 친구끼리 서로 부족한 장난감을 같이 갖고 놀기 위해 합치는 것과 같아요! 전자쌍을 함께 나누어 가집니다."
+            },
+            {
+                id: "chem_03",
+                subject: "화학",
+                term: "중화 반응",
+                category: "산과 염기",
+                quizType: "chosung",
+                question: "산과 염기가 반응하여 물과 앙금(염)을 생성하고 열이 발생하는 반응은? (힌트: ㅈㅎㅂㄴ)",
+                options: ["중화반응", "산화반응", "치환반응", "연소반응"],
+                correctIndex: 0,
+                explanation: "💡 **쉬운 비유:** 신 김치(산성)에 계란 껍데기나 제산제(염기성)를 넣으면 신맛이 사라지고 중성이 되는 것과 같은 화학 반응입니다."
+            },
+            // 생명과학
+            {
+                id: "bio_01",
+                subject: "생명과학",
+                term: "광합성 (Photosynthesis)",
+                category: "세포와 에너지",
+                quizType: "ox",
+                question: "식물의 광합성은 빛 에너지를 이용하여 이산화탄소와 물로부터 포도당과 산소를 만드는 과정이다.",
+                options: ["O (맞음)", "X (틀림)"],
+                correctIndex: 0,
+                explanation: "💡 **쉬운 비유:** 식물이 햇빛이라는 전기 밥솥을 이용해 이산화탄소와 물을 재료로 맛있는 밥(포도당)을 짓는 요리 과정입니다!"
+            },
+            {
+                id: "bio_02",
+                subject: "생명과학",
+                term: "삼투 현상",
+                category: "세포 물질 이동",
+                quizType: "multiple",
+                question: "농도가 낮은 쪽에서 높은 쪽으로 반투과성 막을 통해 물 분자가 이동하는 현상은?",
+                options: ["확산", "삼투 현상", "능동 수송", "여과"],
+                correctIndex: 1,
+                explanation: "💡 **쉬운 비유:** 배추에 소금을 뿌리면 배추 속 물이 밖으로 빠져나오는 현상! 짜게 되어 있는 농도를 맞추기 위해 물이 이동합니다."
+            },
+            {
+                id: "bio_03",
+                subject: "생명과학",
+                term: "항상성",
+                category: "인체 생리",
+                quizType: "chosung",
+                question: "체온, 혈당량 등 체내 환경을 일정하게 유지하려는 생명체의 성질은? (힌트: ㅎㅅㅅ)",
+                options: ["항상성", "적응성", "유전성", "동화성"],
+                correctIndex: 0,
+                explanation: "💡 **쉬운 비유:** 덥면 땀을 흘려 몸을 식히고, 추우면 몸을 떨어 열을 내는 '체내 자동 에어컨/히터 System'입니다."
+            },
+            // 지구과학
+            {
+                id: "earth_01",
+                subject: "지구과학",
+                term: "판 구조론",
+                category: "지질",
+                quizType: "ox",
+                question: "지구 표면은 하나의 거대한 껍질로 이루어져 있으며 절대로 움직이지 않는다.",
+                options: ["O (맞음)", "X (틀림)"],
+                correctIndex: 1,
+                explanation: "💡 **쉬운 비유:** 지구 표면은 퍼즐 조각(판)처럼 나누어져 있고, 맨틀의 대류에 의해 조각들이 아주 천천히 움직이며 지진이나 화산을 일으킵니다."
+            },
+            {
+                id: "earth_02",
+                subject: "지구과학",
+                term: "온실 효과",
+                category: "대기",
+                quizType: "multiple",
+                question: "대기 중의 온실가스가 지표에서 방출되는 지구 복사 에너지를 흡수하여 지구를 따뜻하게 유지하는 현상은?",
+                options: ["온실 효과", "엘니뇨", "열섬 현상", "지구 자전"],
+                correctIndex: 0,
+                explanation: "💡 **쉬운 비유:** 겨울철에 두꺼운 덮는 이불처럼, 대기가 지구의 열이 우주로 몽땅 빠져나가지 않도록 잘 감싸주는 현상입니다."
+            },
+            {
+                id: "earth_03",
+                subject: "지구과학",
+                term: "연주시차",
+                category: "우주",
+                quizType: "chosung",
+                question: "지구가 공전함에 따라 가까운 별의 위치가 배경 별에 대해 1년 주기로 달라져 보이는 각도는? (힌트: ㅇㅅㅅㅊ)",
+                options: ["연주시차", "시선속도", "적위각도", "남중고도"],
+                correctIndex: 0,
+                explanation: "💡 **쉬운 비유:** 손가락을 들고 한쪽 눈씩 번갈아 감으면 손가락 위치가 왔다 갔다 해 보이는 것처럼, 지구 공전 때문에 일어나는 착시 각도입니다."
+            }
+        ];
+
+        let customQuestions = [];
+        let SCIENCE_DATABASE = [...DEFAULT_SCIENCE_DATABASE];
+
+        /* ==========================================================================
+           2. STATE MANAGEMENT & NAME-BASED STORAGE
+           ========================================================================== */
+        let state = {
+            username: "게스트 학생",
+            xp: 0,
+            level: 1,
+            wrongNotes: [], // Array of concept IDs
+            currentQuizSet: [],
+            currentQuizIdx: 0,
+            score: 0,
+            dictCategory: 'all'
+        };
+
+        function getStorageKey(name) {
+            return `science_user_${name.trim().toLowerCase()}`;
+        }
+
+        // Load state from localStorage by student name
+        function loadStudentData(name) {
+            state.username = name || "게스트 학생";
+            const key = getStorageKey(state.username);
+            const saved = localStorage.getItem(key);
+
+            // Load custom questions saved globally
+            const savedCustom = localStorage.getItem('science_custom_questions');
+            if (savedCustom) {
+                try {
+                    customQuestions = JSON.parse(savedCustom);
+                } catch(e) {
+                    customQuestions = [];
+                }
+            } else {
+                customQuestions = [];
+            }
+            SCIENCE_DATABASE = [...DEFAULT_SCIENCE_DATABASE, ...customQuestions];
+
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    state.xp = parsed.xp || 0;
+                    state.level = Math.floor(state.xp / 50) + 1;
+                    state.wrongNotes = parsed.wrongNotes || [];
+                } catch (e) {
+                    console.error('Storage parse error', e);
+                }
+            } else {
+                state.xp = 0;
+                state.level = 1;
+                state.wrongNotes = [];
+            }
+            updateUIHeader();
+        }
+
+        function saveLocalStorage() {
+            const key = getStorageKey(state.username);
+            localStorage.setItem(key, JSON.stringify({
+                xp: state.xp,
+                wrongNotes: state.wrongNotes
+            }));
+            localStorage.setItem('science_custom_questions', JSON.stringify(customQuestions));
+        }
+
+        /* Student Name Login Modal Functions */
+        function openLoginModal() {
+            document.getElementById('student-name-input').value = state.username === '게스트 학생' ? '' : state.username;
+            document.getElementById('login-modal').classList.remove('hidden');
+        }
+
+        function closeLoginModal() {
+            document.getElementById('login-modal').classList.add('hidden');
+        }
+
+        function handleStudentLogin() {
+            const input = document.getElementById('student-name-input').value.trim();
+            if (!input) {
+                showModal("이름 입력", "학생 이름 또는 닉네임을 입력해 주세요.");
+                return;
+            }
+            loadStudentData(input);
+            closeLoginModal();
+            showModal("프로필 연결 성공", `'${state.username}' 학생의 포인트(${state.xp} XP)와 오답 노트를 불러왔습니다.`);
+        }
+
+        /* Add Custom Question Modal Functions */
+        function openAddQuestionModal() {
+            document.getElementById('add-modal').classList.remove('hidden');
+            toggleOptionFields();
+        }
+
+        function closeAddQuestionModal() {
+            document.getElementById('add-modal').classList.add('hidden');
+            document.getElementById('add-question-form').reset();
+        }
+
+        function toggleOptionFields() {
+            const type = document.getElementById('new-quiz-type').value;
+            document.getElementById('ox-options-field').classList.toggle('hidden', type !== 'ox');
+            document.getElementById('multiple-options-field').classList.toggle('hidden', type !== 'multiple');
+            document.getElementById('chosung-options-field').classList.toggle('hidden', type !== 'chosung');
+        }
+
+        function handleAddQuestionSubmit(e) {
+            e.preventDefault();
+            const subject = document.getElementById('new-subject').value;
+            const quizType = document.getElementById('new-quiz-type').value;
+            const term = document.getElementById('new-term').value.trim();
+            const question = document.getElementById('new-question').value.trim();
+            const explanationRaw = document.getElementById('new-explanation').value.trim();
+
+            let options = [];
+            let correctIndex = 0;
+
+            if (quizType === 'ox') {
+                options = ["O (맞음)", "X (틀림)"];
+                correctIndex = parseInt(document.getElementById('new-ox-correct').value);
+            } else if (quizType === 'multiple') {
+                const opt0 = document.getElementById('opt-0').value.trim() || "보기 1";
+                const opt1 = document.getElementById('opt-1').value.trim() || "보기 2";
+                const opt2 = document.getElementById('opt-2').value.trim() || "보기 3";
+                const opt3 = document.getElementById('opt-3').value.trim() || "보기 4";
+                options = [opt0, opt1, opt2, opt3];
+
+                const radios = document.getElementsByName('correct_opt');
+                for (let r of radios) {
+                    if (r.checked) {
+                        correctIndex = parseInt(r.value);
+                        break;
+                    }
+                }
+            } else if (quizType === 'chosung') {
+                const ans = document.getElementById('chosung-answer').value.trim() || "정답";
+                options = [ans, "오답 1", "오답 2", "오답 3"];
+                correctIndex = 0;
+            }
+
+            const newId = `custom_${Date.now()}`;
+            const newQuestionObj = {
+                id: newId,
+                subject: subject,
+                term: `${term} (${state.username} 출제)`,
+                category: "자작 문제",
+                quizType: quizType,
+                question: question,
+                options: options,
+                correctIndex: correctIndex,
+                explanation: `💡 ${explanationRaw}`,
+                createdBy: state.username
+            };
+
+            customQuestions.push(newQuestionObj);
+            SCIENCE_DATABASE.push(newQuestionObj);
+
+            saveLocalStorage();
+            closeAddQuestionModal();
+            showModal("문제 추가 완료", `'${term}' 문제가 추가되었습니다! 퀴즈와 사전에 바로 반영됩니다.`);
+
+            if (!document.getElementById('screen-dictionary').classList.contains('hidden')) {
+                renderDictionary();
+            }
+        }
+
+        function deleteCustomQuestion(id) {
+            showModal("문제 삭제", "내가 만든 이 문제를 삭제하시겠습니까?", true, () => {
+                customQuestions = customQuestions.filter(q => q.id !== id);
+                SCIENCE_DATABASE = SCIENCE_DATABASE.filter(q => q.id !== id);
+                state.wrongNotes = state.wrongNotes.filter(item => item !== id);
+                saveLocalStorage();
+                updateUIHeader();
+                renderDictionary();
+            });
+        }
+
+        /* ==========================================================================
+           3. UI UPDATES & NAVIGATION
+           ========================================================================== */
+<!-- ... existing code -->
+        function renderDictionary() {
+            const query = document.getElementById('dict-search').value.toLowerCase().trim();
+            const container = document.getElementById('dict-cards-container');
+            container.innerHTML = '';
+
+            const filtered = SCIENCE_DATABASE.filter(item => {
+                const matchCategory = state.dictCategory === 'all' || item.subject === state.dictCategory;
+                const matchQuery = item.term.toLowerCase().includes(query) || 
+                                   item.explanation.toLowerCase().includes(query) ||
+                                   item.category.toLowerCase().includes(query);
+                return matchCategory && matchQuery;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full text-center py-12 bg-white rounded-2xl border border-slate-200">
+                        <i class="fa-solid fa-magnifying-glass text-3xl text-slate-300 mb-2"></i>
+                        <p class="text-sm text-slate-500">검색 조건에 맞는 과학 용어가 없습니다.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filtered.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3";
+                
+                let formattedExp = item.explanation.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-slate-800">$1</strong>');
+                const isCustom = item.id.startsWith('custom_');
+
+                card.innerHTML = `
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <span class="px-2 py-0.5 ${isCustom ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-600'} font-semibold text-[11px] rounded">${item.subject} · ${item.category}</span>
+                            <h3 class="font-bold text-slate-800 text-base mt-1.5">${item.term}</h3>
+                        </div>
+                        ${isCustom ? `<button onclick="deleteCustomQuestion('${item.id}')" class="text-slate-300 hover:text-rose-500 p-1 text-xs" title="삭제"><i class="fa-solid fa-trash-can"></i></button>` : ''}
+                    </div>
+                    <div class="text-xs text-slate-600 leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
+                        ${formattedExp}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+<!-- ... existing code -->
